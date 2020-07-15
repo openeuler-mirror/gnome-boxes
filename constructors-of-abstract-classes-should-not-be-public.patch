@@ -1,0 +1,22 @@
+From ec9ce6f88de60ae74f21e26f960f2b0c077f8b78 Mon Sep 17 00:00:00 2001
+From: Rico Tzschichholz <ricotz@ubuntu.com>
+Date: Mon, 18 Mar 2019 10:13:08 +0100
+Subject: [PATCH] Constructors of abstract classes should not be public
+
+---
+ src/machine.vala | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/machine.vala b/src/machine.vala
+index 77ec6c10..60b3def6 100644
+--- a/src/machine.vala
++++ b/src/machine.vala
+@@ -254,7 +254,7 @@ private abstract class Boxes.Machine: Boxes.CollectionItem, Boxes.IPropertiesPro
+         cr.fill ();
+     }
+ 
+-    public Machine (Boxes.CollectionSource source, string name, string? uuid = null) {
++    protected Machine (Boxes.CollectionSource source, string name, string? uuid = null) {
+         this.name = name;
+         this.source = source;
+         this.connecting_cancellable = new Cancellable ();
