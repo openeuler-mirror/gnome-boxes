@@ -4,7 +4,7 @@
 
 Name:           gnome-boxes
 Version:        3.38.2
-Release:        1
+Release:        2
 Summary:        An application of the GNOME Desktop Environment
 License:        LGPLv2+
 URL:            https://wiki.gnome.org/Apps/Boxes
@@ -18,7 +18,7 @@ BuildRequires:  pkgconfig(json-glib-1.0) pkgconfig(libsecret-1) pkgconfig(libvir
 BuildRequires:  pkgconfig(libvirt-gconfig-1.0) pkgconfig(libxml-2.0) pkgconfig(gudev-1.0) libosinfo-vala
 BuildRequires:  pkgconfig(libosinfo-1.0) >= 1.4.0 pkgconfig(libsoup-2.4) >= 2.44 pkgconfig(vte-2.91)
 BuildRequires:  pkgconfig(tracker-sparql-3.0) pkgconfig(webkit2gtk-4.0) spice-gtk3-vala libosinfo-vala
-BuildRequires:  desktop-file-utils pkgconfig(libusb-1.0) pkgconfig(gtksourceview-4) spice-gtk spice-gtk-devel
+BuildRequires:  desktop-file-utils pkgconfig(libusb-1.0) pkgconfig(gtksourceview-4) spice-gtk spice-gtk-devel chrpath
 Requires:       libvirt-daemon-kvm libvirt-daemon-config-network mtools genisoimage adwaita-icon-theme
 
 %description
@@ -34,6 +34,16 @@ An application of the GNOME Desktop Environment,used to access remote or virtual
 %install
 %meson_install
 %find_lang %{name} --with-gnome
+
+chrpath -d %{buildroot}%{_bindir}/gnome-boxes
+mkdir -p %{buildroot}%{_sysconfdir}/ld.so.conf.d
+echo "%{_libdir}/gnome-boxes" > %{buildroot}%{_sysconfdir}/ld.so.conf.d/%{name}-%{_arch}.conf
+
+%post
+/sbin/ldconfig
+
+%postun
+/sbin/ldconfig
 
 %check
 desktop-file-validate %{buildroot}%{_datadir}/applications/org.gnome.Boxes.desktop
@@ -57,8 +67,12 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/org.gnome.Boxes.deskt
 %{_datadir}/dbus-1/services/org.gnome.Boxes.SearchProvider.service
 %{_datadir}/dbus-1/services/org.gnome.Boxes.service
 %{_datadir}/metainfo/org.gnome.Boxes.appdata.xml
+%{_sysconfdir}/ld.so.conf.d/%{name}-%{_arch}.conf
 
 %changelog
+* Fri Sep 10 2021 lingsheng <lingsheng@huawei.com> - 3.38.2-2
+- Delete rpath setting
+
 * Tue Jun 22 2021 weijin deng <weijin.deng@turbolinux.com.cn> - 3.38.2-1
 - Upgrade to 3.38.2
 - Delete two patches whoes content existed in this version 3.38.2
