@@ -1,0 +1,45 @@
+diff --git a/src/vm-configurator.vala b/src/vm-configurator.vala
+index ee8cf13..ede5e0e 100644
+--- a/src/vm-configurator.vala
++++ b/src/vm-configurator.vala
+@@ -38,6 +38,13 @@ private class Boxes.VMConfigurator {
+     private const string LIBOSINFO_XML = "<libosinfo>%s</libosinfo>";
+     private const string LIBOSINFO_OS_ID_XML = "<os id=\"%s\"/>";
+ 
++    /* this var is used for passporting virt type information between function set_cpu_config and statement:
++       "var virt_type = guest_kvm_enabled (best_caps) ? DomainVirtType.KVM : DomainVirtType.QEMU;"
++       the concrete type of virt_type_p refers to /usr/share/vala/vapi/libvirt-gconfig-1.0.vapi:75:  public GVirConfig.DomainVirtType get_virt_type ();
++       the virt_type_p must be static then member function create_domain_config and set_cpu_config can access it.
++    */
++    private static GVirConfig.DomainVirtType virt_type_p = DomainVirtType.QEMU;
++
+     public static Domain create_domain_config (InstallerMedia install_media, string target_path, Capabilities caps, DomainCapabilities domain_caps)
+                                         throws VMConfiguratorError {
+         var domain = new Domain ();
+@@ -46,9 +53,13 @@ private class Boxes.VMConfigurator {
+ 
+         var best_caps = get_best_guest_caps (caps, install_media);
+         domain.memory = install_media.resources.ram / KIBIBYTES;
+-        set_cpu_config (domain, caps);
++        //set_cpu_config (domain, caps); //move this statement before statement:"domain.set_virt_type (virt_type);"
+ 
+         var virt_type = guest_kvm_enabled (best_caps) ? DomainVirtType.KVM : DomainVirtType.QEMU;
++        // passporting virt type information
++        virt_type_p = virt_type;
++        // new call position
++        set_cpu_config (domain, caps);
+         domain.set_virt_type (virt_type);
+ 
+         set_os_config (domain, install_media, best_caps, domain_caps);
+@@ -244,7 +255,10 @@ private class Boxes.VMConfigurator {
+         domain.vcpu = topology.get_sockets () * topology.get_cores () * topology.get_threads ();
+ 
+         var cpu = new DomainCpu ();
+-        cpu.set_mode (DomainCpuMode.HOST_PASSTHROUGH);
++        if(virt_type_p == DomainVirtType.QEMU)
++                cpu.set_mode (DomainCpuMode.HOST_MODEL);
++        else	/* if virt_type_p == DomainVirtType.KVM or other */
++	        cpu.set_mode (DomainCpuMode.HOST_PASSTHROUGH);
+         cpu.set_topology (topology);
+ 
+         domain.set_cpu (cpu);
