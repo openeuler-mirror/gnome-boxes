@@ -4,11 +4,12 @@
 
 Name:           gnome-boxes
 Version:        3.38.2
-Release:        2
+Release:        3
 Summary:        An application of the GNOME Desktop Environment
 License:        LGPLv2+
 URL:            https://wiki.gnome.org/Apps/Boxes
 Source0:        http://download.gnome.org/sources/%{name}/%{url_ver}/%{name}-%{version}.tar.xz
+Patch0:         0001-make-gnome-boxes-correctly-select-virtualization-cpu-mode.patch
 
 BuildRequires:  gettext >= 0.19.8 meson itstool vala >= 0.36.0 yelp-tools
 BuildRequires:  pkgconfig(clutter-gtk-1.0) pkgconfig(freerdp2) pkgconfig(glib-2.0) >= 2.52
@@ -70,6 +71,9 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/org.gnome.Boxes.deskt
 %{_sysconfdir}/ld.so.conf.d/%{name}-%{_arch}.conf
 
 %changelog
+* Mon Oct 11 2021 weijin deng <weijin.deng@turbolinux.com.cn> - 3.38.2-3
+- Add 0001-make-gnome-boxes-correctly-select-virtualization-cpu-mode.patch
+
 * Fri Sep 10 2021 lingsheng <lingsheng@huawei.com> - 3.38.2-2
 - Delete rpath setting
 
