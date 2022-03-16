@@ -1,0 +1,30 @@
+diff --git a/src/vm-configurator.vala b/src/vm-configurator.vala
+index 010faa0..66e435b 100644
+--- a/src/vm-configurator.vala
++++ b/src/vm-configurator.vala
+@@ -114,7 +114,7 @@ private class Boxes.VMConfigurator {
+ 
+         add_usb_support (domain);
+ #if !FLATPAK
+-        add_smartcard_support (domain);
++        //add_smartcard_support (domain);
+ #endif
+ 
+         set_video_config (domain, install_media);
+@@ -651,14 +651,14 @@ private class Boxes.VMConfigurator {
+             } catch (GLib.Error error) { assert_not_reached (); /* We are so screwed if this happens */ }
+         }
+     }
+-
++/*
+     public static void add_smartcard_support (Domain domain) {
+         var smartcard = new DomainSmartcardPassthrough ();
+         var vmc = new DomainChardevSourceSpiceVmc ();
+         smartcard.set_source (vmc);
+         domain.add_device (smartcard);
+     }
+-
++*/
+     public static void add_usb_support (Domain domain) {
+         // 4 USB redirection channels
+         for (int i = 0; i < 4; i++) {
