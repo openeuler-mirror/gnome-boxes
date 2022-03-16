@@ -1,0 +1,46 @@
+diff --git a/src/libvirt-machine.vala b/src/libvirt-machine.vala
+index fad5114..77de4a2 100644
+--- a/src/libvirt-machine.vala
++++ b/src/libvirt-machine.vala
+@@ -60,9 +60,15 @@ private class Boxes.LibvirtMachine: Boxes.Machine {
+ 
+             GLib.List<GVirConfig.DomainDevice> devices = null;
+             foreach (var device in domain_config.get_devices ()) {
++/*
+                 if (device is GVirConfig.DomainGraphicsSpice) {
+                     var graphics_device = VMConfigurator.create_graphics_device (_acceleration_3d);
+ 
++                    devices.prepend (graphics_device);
++*/
++		if (device is GVirConfig.DomainGraphicsVnc) {
++                    var graphics_device = VMConfigurator.create_graphics_device (_acceleration_3d);
++
+                     devices.prepend (graphics_device);
+                 } else if (device is GVirConfig.DomainVideo) {
+                     var video_device = device as GVirConfig.DomainVideo;
+diff --git a/src/vm-configurator.vala b/src/vm-configurator.vala
+index 66e435b..695cb90 100644
+--- a/src/vm-configurator.vala
++++ b/src/vm-configurator.vala
+@@ -699,6 +699,7 @@ private class Boxes.VMConfigurator {
+         return iface;
+     }
+ 
++/*
+     public static DomainGraphicsSpice create_graphics_device (bool accel3d = false) {
+         var graphics = new DomainGraphicsSpice ();
+         graphics.set_autoport (false);
+@@ -707,6 +708,13 @@ private class Boxes.VMConfigurator {
+ 
+         return graphics;
+     }
++*/
++    public static DomainGraphicsVnc create_graphics_device (bool accel3d = false) {
++        var graphics = new DomainGraphicsVnc ();
++        graphics.set_autoport (true);
++
++        return graphics;
++    }
+ 
+     public static DomainChannel create_webdav_channel () {
+         var channel_webdav = new DomainChannel ();
