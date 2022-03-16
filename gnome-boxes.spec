@@ -4,12 +4,16 @@
 
 Name:           gnome-boxes
 Version:        3.38.2
-Release:        3
+Release:        4
 Summary:        An application of the GNOME Desktop Environment
 License:        LGPLv2+
 URL:            https://wiki.gnome.org/Apps/Boxes
 Source0:        http://download.gnome.org/sources/%{name}/%{url_ver}/%{name}-%{version}.tar.xz
 Patch0:         0001-make-gnome-boxes-correctly-select-virtualization-cpu-mode.patch
+Patch1:         0002-disable-domain-conf-video-model-qxl-because-qemu-not-open-this-support.patch
+Patch2:         0003-disable-domain-conf-smartcard-because-qemu-not-open-this-support-now.patch
+Patch3:         0004-disable-domain-conf-spice-graphics-because-qemu-not-open-this-support-now-and-add-vnc-instead.patch
+Patch4:         0005-disable-domain-conf-USB-redirection--because-qemu-this-version-unsupport-now.patch
 
 BuildRequires:  gettext >= 0.19.8 meson itstool vala >= 0.36.0 yelp-tools
 BuildRequires:  pkgconfig(clutter-gtk-1.0) pkgconfig(freerdp2) pkgconfig(glib-2.0) >= 2.52
@@ -71,6 +75,10 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/org.gnome.Boxes.deskt
 %{_sysconfdir}/ld.so.conf.d/%{name}-%{_arch}.conf
 
 %changelog
+* Tue Mar 15 2022 weijin deng <weijin.deng@turbolinux.com.cn> - 3.38.2-4
+- Add four patches to make gome-boxes avoid setting qemu unsupported modules
+  add vnc instead of spice
+
 * Mon Oct 11 2021 weijin deng <weijin.deng@turbolinux.com.cn> - 3.38.2-3
 - Add 0001-make-gnome-boxes-correctly-select-virtualization-cpu-mode.patch
 
