@@ -1,0 +1,43 @@
+diff --git a/src/vm-configurator.vala b/src/vm-configurator.vala
+index 695cb90..b02beeb 100644
+--- a/src/vm-configurator.vala
++++ b/src/vm-configurator.vala
+@@ -104,8 +104,10 @@ private class Boxes.VMConfigurator {
+         var channel = new DomainChannel ();
+         channel.set_target_type (DomainChannelTargetType.VIRTIO);
+         channel.set_target_name ("com.redhat.spice.0");
++/*
+         var vmc = new DomainChardevSourceSpiceVmc ();
+         channel.set_source (vmc);
++*/
+         domain.add_device (channel);
+ 
+         // Webdav channel. This is needed for the shared folder feature to work.
+@@ -661,6 +663,7 @@ private class Boxes.VMConfigurator {
+ */
+     public static void add_usb_support (Domain domain) {
+         // 4 USB redirection channels
++/*
+         for (int i = 0; i < 4; i++) {
+             var usb_redir = new DomainRedirdev ();
+             usb_redir.set_bus (DomainRedirdevBus.USB);
+@@ -668,6 +671,7 @@ private class Boxes.VMConfigurator {
+             usb_redir.set_source (vmc);
+             domain.add_device (usb_redir);
+         }
++*/
+ 
+         // USB controllers
+         var master_controller = create_usb_controller (DomainControllerUsbModel.ICH9_EHCI1);
+@@ -721,9 +725,11 @@ private class Boxes.VMConfigurator {
+         channel_webdav.set_target_type (DomainChannelTargetType.VIRTIO);
+         channel_webdav.set_target_name (WEBDAV_CHANNEL_URI);
+ 
++/*
+         var spice_port = new DomainChardevSourceSpicePort ();
+         spice_port.set_channel (WEBDAV_CHANNEL_URI);
+         channel_webdav.set_source (spice_port);
++*/
+ 
+         return channel_webdav;
+     }
