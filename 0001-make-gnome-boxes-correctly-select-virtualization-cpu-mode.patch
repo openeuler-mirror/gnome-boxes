@@ -1,8 +1,8 @@
 diff --git a/src/vm-configurator.vala b/src/vm-configurator.vala
-index ee8cf13..ede5e0e 100644
+index 6d817df..c75cd45 100644
 --- a/src/vm-configurator.vala
 +++ b/src/vm-configurator.vala
-@@ -38,6 +38,13 @@ private class Boxes.VMConfigurator {
+@@ -39,6 +39,13 @@
      private const string LIBOSINFO_XML = "<libosinfo>%s</libosinfo>";
      private const string LIBOSINFO_OS_ID_XML = "<os id=\"%s\"/>";
  
@@ -13,10 +13,10 @@ index ee8cf13..ede5e0e 100644
 +    */
 +    private static GVirConfig.DomainVirtType virt_type_p = DomainVirtType.QEMU;
 +
-     public static Domain create_domain_config (InstallerMedia install_media, string target_path, Capabilities caps, DomainCapabilities domain_caps)
-                                         throws VMConfiguratorError {
-         var domain = new Domain ();
-@@ -46,9 +53,13 @@ private class Boxes.VMConfigurator {
+     private const bool SPICE_AVAILABLE =
+ #if HAS_SPICE
+         true;
+@@ -54,9 +61,13 @@ public static Domain create_domain_config (InstallerMedia install_media, string
  
          var best_caps = get_best_guest_caps (caps, install_media);
          domain.memory = install_media.resources.ram / KIBIBYTES;
@@ -31,15 +31,15 @@ index ee8cf13..ede5e0e 100644
          domain.set_virt_type (virt_type);
  
          set_os_config (domain, install_media, best_caps, domain_caps);
-@@ -244,7 +255,10 @@ private class Boxes.VMConfigurator {
+@@ -233,7 +244,10 @@ private static void set_cpu_config (Domain domain, Capabilities caps) {
          domain.vcpu = topology.get_sockets () * topology.get_cores () * topology.get_threads ();
  
          var cpu = new DomainCpu ();
 -        cpu.set_mode (DomainCpuMode.HOST_PASSTHROUGH);
 +        if(virt_type_p == DomainVirtType.QEMU)
 +                cpu.set_mode (DomainCpuMode.HOST_MODEL);
-+        else	/* if virt_type_p == DomainVirtType.KVM or other */
-+	        cpu.set_mode (DomainCpuMode.HOST_PASSTHROUGH);
++        else   /* if virt_type_p == DomainVirtType.KVM or other */
++               cpu.set_mode (DomainCpuMode.HOST_PASSTHROUGH);
          cpu.set_topology (topology);
  
          domain.set_cpu (cpu);

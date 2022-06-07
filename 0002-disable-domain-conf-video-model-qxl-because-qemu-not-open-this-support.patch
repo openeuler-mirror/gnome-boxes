@@ -1,8 +1,8 @@
 diff --git a/src/vm-configurator.vala b/src/vm-configurator.vala
-index ede5e0e..010faa0 100644
+index c75cd45..521ab0c 100644
 --- a/src/vm-configurator.vala
 +++ b/src/vm-configurator.vala
-@@ -443,11 +443,11 @@ private class Boxes.VMConfigurator {
+@@ -461,11 +461,11 @@ private static void set_os_config (Domain domain, InstallerMedia install_media,
  
      private static void set_video_config (Domain domain, InstallerMedia install_media) {
          var video = new DomainVideo ();
