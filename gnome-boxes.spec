@@ -6,13 +6,12 @@
 %global __requires_exclude ^(%%(find %{buildroot}%{_libdir}/gnome-boxes/ -name '*.so' | xargs -n1 basename | sort -u | paste -s -d '|' -))
 
 Name:		gnome-boxes
-Version:	42.0.1
+Version:	42.1
 Release:	1
 Summary:        An application of the GNOME Desktop Environment
 License:        LGPLv2+
 URL:            https://wiki.gnome.org/Apps/Boxes
 Source0:	https://download.gnome.org/sources/%{name}/%{major_version}/%{name}-%{version}.tar.xz
-Patch0:         0001-make-gnome-boxes-correctly-select-virtualization-cpu-mode.patch
 Patch1:         0002-disable-domain-conf-video-model-qxl-because-qemu-not-open-this-support.patch
 Patch2:         0003-disable-domain-conf-smartcard-because-qemu-not-open-this-support-now.patch
 Patch3:         0004-disable-domain-conf-spice-graphics-because-qemu-not-open-this-support-now-and-add-vnc-instead.patch
@@ -84,6 +83,9 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/org.gnome.Boxes.deskt
 %{_sysconfdir}/ld.so.conf.d/%{name}-%{_arch}.conf
 
 %changelog
+* Tue Jun 21 2022 weijin deng <weijin.deng@turbolinux.com.cn> - 42.1-1
+- Update to 42.1
+
 * Mon Mar 28 2022 lin zhang <lin.zhang@turbolinux.com.cn> - 42.0.1-1
 - Update to 42.0.1, Update four patches
 
