@@ -1,35 +1,35 @@
 diff --git a/src/vm-configurator.vala b/src/vm-configurator.vala
-index 695cb90..b02beeb 100644
+index 26a7199..263f966 100644
 --- a/src/vm-configurator.vala
 +++ b/src/vm-configurator.vala
-@@ -104,8 +104,10 @@ private class Boxes.VMConfigurator {
-         var channel = new DomainChannel ();
-         channel.set_target_type (DomainChannelTargetType.VIRTIO);
-         channel.set_target_name ("com.redhat.spice.0");
-+/*
-         var vmc = new DomainChardevSourceSpiceVmc ();
-         channel.set_source (vmc);
-+*/
-         domain.add_device (channel);
+@@ -684,6 +684,7 @@ public static void add_smartcard_support (Domain domain) {
+     public static void add_usb_support (Domain domain, InstallerMedia install_media) {
  
-         // Webdav channel. This is needed for the shared folder feature to work.
-@@ -661,6 +663,7 @@ private class Boxes.VMConfigurator {
- */
-     public static void add_usb_support (Domain domain) {
          // 4 USB redirection channels
 +/*
          for (int i = 0; i < 4; i++) {
              var usb_redir = new DomainRedirdev ();
              usb_redir.set_bus (DomainRedirdevBus.USB);
-@@ -668,6 +671,7 @@ private class Boxes.VMConfigurator {
+@@ -691,6 +692,7 @@ public static void add_usb_support (Domain domain, InstallerMedia install_media)
              usb_redir.set_source (vmc);
              domain.add_device (usb_redir);
          }
 +*/
  
-         // USB controllers
-         var master_controller = create_usb_controller (DomainControllerUsbModel.ICH9_EHCI1);
-@@ -721,9 +725,11 @@ private class Boxes.VMConfigurator {
+         var device = find_device_by_prop (install_media.supported_devices, DEVICE_PROP_NAME, "qemu-xhci");
+         if (device != null) {
+@@ -736,8 +738,10 @@ private static DomainChannel create_spice_agent_channel () {
+         var channel = new DomainChannel ();
+         channel.set_target_type (DomainChannelTargetType.VIRTIO);
+         channel.set_target_name (SPICE_AGENT_CHANNEL);
++/*
+         var vmc = new DomainChardevSourceSpiceVmc ();
+         channel.set_source (vmc);
++*/
+ 
+         return channel;
+     }
+@@ -753,9 +757,11 @@ public static DomainChannel create_spice_webdav_channel () {
          channel_webdav.set_target_type (DomainChannelTargetType.VIRTIO);
          channel_webdav.set_target_name (WEBDAV_CHANNEL_URI);
  
