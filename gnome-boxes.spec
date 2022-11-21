@@ -1,18 +1,17 @@
 %global vendor %{?_vendor:%{_vendor}}%{!?_vendor:openEuler}
 %global distributor_name %{vendor}
 %global distributor_version %{%{vendor}}
-%global major_version %%(echo %%{tarball_version} | cut -d. -f1)
 
 %global __provides_exclude_from ^%{_libdir}/gnome-boxes/
 %global __requires_exclude ^(%%(find %{buildroot}%{_libdir}/gnome-boxes/ -name '*.so' | xargs -n1 basename | sort -u | paste -s -d '|' -))
 
 Name:		gnome-boxes
 Version:	42.1
-Release:	2
+Release:	3
 Summary:        An application of the GNOME Desktop Environment
 License:        LGPLv2+
 URL:            https://wiki.gnome.org/Apps/Boxes
-Source0:	https://download.gnome.org/sources/%{name}/%{major_version}/%{name}-%{version}.tar.xz
+Source0:        https://download.gnome.org/sources/%{name}/42/%{name}-%{version}.tar.xz
 Patch1:         0002-disable-domain-conf-video-model-qxl-because-qemu-not-open-this-support.patch
 Patch2:         0003-disable-domain-conf-smartcard-because-qemu-not-open-this-support-now.patch
 Patch3:         0004-disable-domain-conf-spice-graphics-because-qemu-not-open-this-support-now-and-add-vnc-instead.patch
@@ -84,6 +83,9 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/org.gnome.Boxes.deskt
 %{_sysconfdir}/ld.so.conf.d/%{name}-%{_arch}.conf
 
 %changelog
+* Mon Nov 21 2022 caodongxia <caodongxia@h-partners.com> - 42.1-3
+- Modify invalid source0
+
 * Fri Nov 18 2022 yaoxin <yaoxin30@h-partners.com> - 42.1-2
 - Replace openEuler with vendor
 
