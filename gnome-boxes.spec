@@ -1,5 +1,6 @@
-%global distributor_name openEuler
-%global distributor_version %{openEuler}
+%global vendor %{?_vendor:%{_vendor}}%{!?_vendor:openEuler}
+%global distributor_name %{vendor}
+%global distributor_version %{%{vendor}}
 %global major_version %%(echo %%{tarball_version} | cut -d. -f1)
 
 %global __provides_exclude_from ^%{_libdir}/gnome-boxes/
@@ -7,7 +8,7 @@
 
 Name:		gnome-boxes
 Version:	42.1
-Release:	1
+Release:	2
 Summary:        An application of the GNOME Desktop Environment
 License:        LGPLv2+
 URL:            https://wiki.gnome.org/Apps/Boxes
@@ -83,6 +84,9 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/org.gnome.Boxes.deskt
 %{_sysconfdir}/ld.so.conf.d/%{name}-%{_arch}.conf
 
 %changelog
+* Fri Nov 18 2022 yaoxin <yaoxin30@h-partners.com> - 42.1-2
+- Replace openEuler with vendor
+
 * Mon Oct 31 2022 yaoxin <yaoxin30@h-partners.com> - 42.1-1
 - Update to 42.1
 
