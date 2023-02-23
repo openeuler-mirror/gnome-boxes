@@ -1,21 +1,17 @@
 %global distributor_name openEuler
 %global distributor_version %{openEuler}
-%global major_version %%(echo %%{tarball_version} | cut -d. -f1)
+%global major_version %%(echo %%{version} | cut -d. -f1)
 
 %global __provides_exclude_from ^%{_libdir}/gnome-boxes/
 %global __requires_exclude ^(%%(find %{buildroot}%{_libdir}/gnome-boxes/ -name '*.so' | xargs -n1 basename | sort -u | paste -s -d '|' -))
 
-Name:		gnome-boxes
-Version:	42.1
-Release:	1
+Name:		    gnome-boxes
+Version:	    43.2
+Release:	    1
 Summary:        An application of the GNOME Desktop Environment
 License:        LGPLv2+
 URL:            https://wiki.gnome.org/Apps/Boxes
-Source0:	https://download.gnome.org/sources/%{name}/%{major_version}/%{name}-%{version}.tar.xz
-Patch1:         0002-disable-domain-conf-video-model-qxl-because-qemu-not-open-this-support.patch
-Patch2:         0003-disable-domain-conf-smartcard-because-qemu-not-open-this-support-now.patch
-Patch3:         0004-disable-domain-conf-spice-graphics-because-qemu-not-open-this-support-now-and-add-vnc-instead.patch
-Patch4:         0005-disable-domain-conf-USB-redirection--because-qemu-this-version-unsupport-now.patch
+Source0:	    https://download.gnome.org/sources/%{name}/%{major_version}/%{name}-%{version}.tar.xz
 
 BuildRequires:  gettext >= 0.19.8 meson itstool vala >= 0.36.0 yelp-tools
 BuildRequires:  pkgconfig(clutter-gtk-1.0) pkgconfig(freerdp2) pkgconfig(glib-2.0) >= 2.52
@@ -23,8 +19,8 @@ BuildRequires:  pkgconfig(gobject-introspection-1.0) pkgconfig(govirt-1.0)
 BuildRequires:  pkgconfig(gtk+-3.0) >= 3.22.20 pkgconfig(gtk-vnc-2.0) pkgconfig(libarchive)
 BuildRequires:  pkgconfig(json-glib-1.0) pkgconfig(libsecret-1) pkgconfig(libvirt-gobject-1.0)
 BuildRequires:  pkgconfig(libvirt-gconfig-1.0) pkgconfig(libxml-2.0) pkgconfig(gudev-1.0) libosinfo-vala
-BuildRequires:  pkgconfig(libosinfo-1.0) >= 1.4.0 pkgconfig(libsoup-2.4) >= 2.44 pkgconfig(vte-2.91)
-BuildRequires:  pkgconfig(tracker-sparql-3.0) pkgconfig(webkit2gtk-4.0) spice-gtk3-vala libosinfo-vala
+BuildRequires:  pkgconfig(libosinfo-1.0) >= 1.4.0 pkgconfig(libsoup-3.0) pkgconfig(vte-2.91)
+BuildRequires:  pkgconfig(tracker-sparql-3.0) pkgconfig(webkit2gtk-4.1) spice-gtk3-vala libosinfo-vala
 BuildRequires:  desktop-file-utils pkgconfig(libusb-1.0) pkgconfig(gtksourceview-4) spice-gtk spice-gtk-devel chrpath
 BuildRequires:	pkgconfig(gvncpulse-1.0) pkgconfig(libhandy-1)
 
@@ -83,6 +79,9 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/org.gnome.Boxes.deskt
 %{_sysconfdir}/ld.so.conf.d/%{name}-%{_arch}.conf
 
 %changelog
+* Mon Jan 02 2023 lin zhang <lin.zhang@turbolinux.com.cn> - 43.2-1
+- Update to 43.2
+
 * Tue Jun 21 2022 weijin deng <weijin.deng@turbolinux.com.cn> - 42.1-1
 - Update to 42.1
 
