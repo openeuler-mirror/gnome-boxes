@@ -7,7 +7,7 @@
 
 Name:		    gnome-boxes
 Version:	    43.2
-Release:	    1
+Release:	    2
 Summary:        An application of the GNOME Desktop Environment
 License:        LGPLv2+
 URL:            https://wiki.gnome.org/Apps/Boxes
@@ -25,6 +25,7 @@ BuildRequires:  desktop-file-utils pkgconfig(libusb-1.0) pkgconfig(gtksourceview
 BuildRequires:	pkgconfig(gvncpulse-1.0) pkgconfig(libhandy-1)
 
 Requires:       libvirt-daemon-kvm libvirt-daemon-config-network mtools genisoimage adwaita-icon-theme
+Requires:       /usr/bin/virsh
 
 %description
 An application of the GNOME Desktop Environment,used to access remote or virtual systems.
@@ -79,6 +80,9 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/org.gnome.Boxes.deskt
 %{_sysconfdir}/ld.so.conf.d/%{name}-%{_arch}.conf
 
 %changelog
+* Mon Mar 27 2023 lin zhang <lin.zhang@turbolinux.com.cn> - 43.2-2
+- Require virsh for fix issue:I6QG6Z
+
 * Mon Jan 02 2023 lin zhang <lin.zhang@turbolinux.com.cn> - 43.2-1
 - Update to 43.2
 
