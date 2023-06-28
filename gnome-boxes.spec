@@ -7,7 +7,7 @@
 
 Name:		    gnome-boxes
 Version:	    43.2
-Release:	    2
+Release:	    3
 Summary:        An application of the GNOME Desktop Environment
 License:        LGPLv2+
 URL:            https://wiki.gnome.org/Apps/Boxes
@@ -34,6 +34,10 @@ An application of the GNOME Desktop Environment,used to access remote or virtual
 %autosetup -n %{name}-%{version} -p1
 
 %build
+%if "%toolchain" == "clang"
+	export CFLAGS="$CFLAGS -Wno-error=int-conversion"
+	export CXXFLAGS="$CXXFLAGS -Wno-error=int-conversion"
+%endif
 %meson -D distributor_name=%{distributor_name} -D distributor_version=%{distributor_version}
 %meson_build
 
@@ -80,6 +84,9 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/org.gnome.Boxes.deskt
 %{_sysconfdir}/ld.so.conf.d/%{name}-%{_arch}.conf
 
 %changelog
+* Tue Jun 20 2023 yoo <sunyuechi@iscas.ac.cn> - 43.2-3
+- fix clang build error
+
 * Mon Mar 27 2023 lin zhang <lin.zhang@turbolinux.com.cn> - 43.2-2
 - Require virsh for fix issue:I6QG6Z
 
